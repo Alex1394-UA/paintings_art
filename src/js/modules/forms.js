@@ -1,7 +1,7 @@
 // import checkNumInputs from './checkNumInputs';
 import { postData } from "../services/requests";
 
-const forms = () => {
+const forms = (state) => {
     const form = document.querySelectorAll('form'),
           inputs = document.querySelectorAll('input'),
           upload = document.querySelectorAll('[name="upload"]');
@@ -66,9 +66,18 @@ const forms = () => {
 
             const formData = new FormData(item);
             let api;
-            item.closest('.popup-design') || item.classList.contains('calc_form') ? 
+            item.closest('.popup-design') || 
+            item.classList.contains('calc_form') ? 
             api = path.designer : api = path.question;
             console.log(api);
+
+            if (item.classList.contains('calc_form')) {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+                const resultBlock = document.querySelector('.calc-price');
+                formData.append('total_price', +resultBlock.textContent);
+            }
 
             postData(api, formData)
                 .then(res => {
