@@ -1,19 +1,19 @@
 const filter = () => {
     const menu = document.querySelector('.portfolio-menu'),
           items = menu.querySelectorAll('li'),
-          btnAll = menu.querySelector('.all'),
+          /* btnAll = menu.querySelector('.all'),
           btnLovers = menu.querySelector('.lovers'),
           btnChef = menu.querySelector('.chef'),
           btnGirl = menu.querySelector('.girl'),
           btnGuy = menu.querySelector('.guy'),
           btnGrandmother = menu.querySelector('.grandmother'),
-          btnGranddad = menu.querySelector('.granddad'),
+          btnGranddad = menu.querySelector('.granddad'), */
           wrapper = document.querySelector('.portfolio-wrapper'),
           markAll = wrapper.querySelectorAll('.all'),
-          markGirl = wrapper.querySelectorAll('.girl'),
+          /* markGirl = wrapper.querySelectorAll('.girl'),
           markLovers = wrapper.querySelectorAll('.lovers'),
           markChef = wrapper.querySelectorAll('.chef'),
-          markGuy = wrapper.querySelectorAll('.guy'),
+          markGuy = wrapper.querySelectorAll('.guy'), */
           no = document.querySelector('.portfolio-no');
 
     const typeFilter = (markType) => {
@@ -36,7 +36,31 @@ const filter = () => {
         }
     };
 
-    btnAll.addEventListener('click', () => {
+    menu.addEventListener('click', (e) => {
+        let target = e.target;
+        
+        if (target && target.tagName == "LI") {
+            items.forEach(btn => btn.classList.remove('active'));
+            target.classList.add('active');
+        }
+
+        if (target.classList[0] == 'all') {
+            typeFilter(markAll);    
+        } else if (target.classList[0] == 'grandmother' ||
+            target.classList[0] == 'granddad') {
+            typeFilter();
+        } else {
+            let markSel = [];
+            markAll.forEach(pic => {
+                if (pic.classList[2] == target.classList[0]) {
+                    markSel.push(pic);      
+                }
+        });
+            typeFilter(markSel);
+        }  
+    });
+
+    /* btnAll.addEventListener('click', () => {
         typeFilter(markAll);
     });
 
@@ -62,16 +86,7 @@ const filter = () => {
 
     btnGranddad.addEventListener('click', () => {
         typeFilter();
-    });
-
-    menu.addEventListener('click', (e) => {
-        let target = e.target;
-
-        if (target && target.tagName == "LI") {
-            items.forEach(btn => btn.classList.remove('active'));
-            target.classList.add('active');
-        }
-    });
+    }); */   
 };
 
 export default filter;
